@@ -1,15 +1,16 @@
-import entity.data.Setting
-import entity.enum.*
+import utility.CommandUtility
 
 fun main() {
     println("*** start program ***")
     while (true) {
-        val str = announce()?: break
-        lang = Lang.get(str = str)
-        if (lang == null) {
-            Exception.IllegalLang.log()
+        val str = read(readln()) ?: break
+        val command = CommandUtility.getCommand(str)
+        if (command == null) {
+            println("不正な値を検知しました")
             continue
         }
+        println("success!! : $command")
+        CommandUtility.executeCommand(command)
     }
 }
 
@@ -19,7 +20,8 @@ fun main() {
  */
 fun read(str: String): String? {
     return if (Const.quiet(str)) {
-        println("Exit Program : you select [q] , See you again")
+        println("You Select [q], See You Later")
+        println("*** exit program ***")
         null
     } else {
         str
